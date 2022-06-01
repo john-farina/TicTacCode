@@ -13,6 +13,7 @@ h1 {
     color: rgb(253, 255, 239);
     font-size: 35px;
     margin: 30px;
+    margin-top: 70px;
 }
 
 .gameboard {
@@ -25,6 +26,16 @@ h1 {
     flex-direction: column;
     background-color: rgb(66, 77, 96);
     box-shadow: 0px 20px 20px 30px rgba(0, 0, 0, 13%);
+}
+
+@media (max-width: 480px) {
+    h1 {
+        margin-top: 100px;
+    }
+    .gameboard {
+        width: 380px;
+        height: 380px;
+    }
 }
 
 .gameRow {
