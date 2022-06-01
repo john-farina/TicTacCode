@@ -1,0 +1,67 @@
+body {
+    background: rgb(52, 57, 72);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Lato', sans-serif;
+    color: rgb(253, 255, 239);
+}
+
+h1 {
+    color: rgb(253, 255, 239);
+}
+
+.gameboard {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 400px;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(66, 77, 96);
+    box-shadow: 0px 20px 20px 30px rgba(0, 0, 0, 13%);
+}
+
+.gameRow {
+    display: flex;
+}
+
+.gameSquares {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    height: 100px;
+    font-size: 70px;
+    background-color: rgb(71, 81, 105);
+    border-style: solid;
+    border-color: rgba(131, 131, 131, 30%);
+    border-width: 0.5px;
+    color: rgb(253, 255, 239);
+}
+
+.gameLetter {
+    font-size: 80px;
+}
+
+.resetButton {
+    margin-top: 50px;
+    width: 120px;
+    height: 40px;
+    background-color: rgb(111, 200, 101);
+    border-style: solid;
+    border-color: rgb(98, 179, 89);
+    border-radius: 5px;
+    font-size: 15px;
+    font-weight: bolder;
+    color: rgb(34, 34, 34);
+}
+
+.resetButton:hover {
+    background-color: rgb(93, 170, 85);
+    border-style: solid;
+    border-color: rgb(82, 152, 75);
+}
