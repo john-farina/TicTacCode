@@ -3,12 +3,19 @@ let squareCount = 0;
 let roundCount = 0;
 let wonGame = false;
 let lostGame = false;
+let twoPlayer = false;
 
 const gameHeader = document.createElement('h1');
 gameHeader.classList.add('gameHeader');
+const buttonContainer = document.createElement('div');
+buttonContainer.classList.add('buttonContainer');
 const resetButton = document.createElement('button');
 resetButton.classList.add('resetButton');
 resetButton.innerHTML = 'Reset';
+const gameModeButton = document.createElement('button');
+gameModeButton.classList.add('gameModeButton');
+buttonContainer.appendChild(resetButton);
+buttonContainer.appendChild(gameModeButton);
 
 const Gameboard = (() => {
     const gameArray = ['', '', '', '', '', '', '', '', ''];
@@ -131,8 +138,16 @@ function createSquares() {
                     Gameboard.gameArray[thisNumber] = 1;
                     console.log(Gameboard.gameArray);
                     console.log(roundCount);
-                    computerPlayer();
+                    if (twoPlayer === false) {
+                        computerPlayer();
+                    }
                 } else {
+                    if (twoPlayer === true) {
+                        roundCount++;
+                        Gameboard.gameArray[thisNumber] = 0;
+                        console.log(Gameboard.gameArray);
+                        console.log(roundCount);
+                    }
                     console.log('ERROR');
                 }
             }
@@ -159,7 +174,7 @@ function createGameBoard() {
     }
     body.appendChild(gameHeader);
     body.appendChild(gameBoardContainer);
-    body.appendChild(resetButton);
+    body.appendChild(buttonContainer);
 }
 createGameBoard();
 
@@ -228,25 +243,50 @@ function gameLogic() {
 
 function updateText() {
     if (roundCount < 9 && wonGame != true && lostGame != true) {
-        if (roundCount % 2 === 0) {
-            gameHeader.innerHTML = `Players Turn`;
-        } else {
-            gameHeader.innerHTML = `Computers Turn`;
+        if (twoPlayer === false) {
+            if (roundCount % 2 === 0) {
+                gameHeader.innerHTML = `Players Turn`;
+            } else {
+                gameHeader.innerHTML = `Computers Turn`;
+            }
+        } else if (twoPlayer === true) {
+            if (roundCount % 2 === 0) {
+                gameHeader.innerHTML = `Player Ones Turn`;
+            } else {
+                gameHeader.innerHTML = `Player Twos Turn`;
+            }
         }
-    } else if (wonGame === true) {
+    } else if (wonGame === true && twoPlayer === false) {
         body.classList.add('winAnimate');
         gameHeader.innerHTML = 'You Won';
         setTimeout(function () {
             body.classList.remove('winAnimate');
         }, 4000);
-    } else if (lostGame === true) {
+    } else if (lostGame === true && twoPlayer === false) {
         body.classList.add('loseAnimate');
         gameHeader.innerHTML = 'You Lost';
         setTimeout(function () {
             body.classList.remove('loseAnimate');
         }, 4000);
+    } else if (wonGame === true && twoPlayer === true) {
+        body.classList.add('winAnimate');
+        gameHeader.innerHTML = 'Player One Wins!';
+        setTimeout(function () {
+            body.classList.remove('winAnimate');
+        }, 4000);
+    } else if (lostGame === true && twoPlayer === true) {
+        body.classList.add('winAnimate');
+        gameHeader.innerHTML = 'Player Two Wins!';
+        setTimeout(function () {
+            body.classList.remove('winAnimate');
+        }, 4000);
     } else {
         gameHeader.innerHTML = `No One Won`;
+    }
+    if (twoPlayer === false) {
+        gameModeButton.innerHTML = 'Multiplayer';
+    } else if (twoPlayer === true) {
+        gameModeButton.innerHTML = 'Single Player';
     }
 }
 
@@ -275,4 +315,14 @@ function clearBoard() {
 
 resetButton.addEventListener('click', function () {
     clearBoard();
+});
+
+gameModeButton.addEventListener('click', function () {
+    if (twoPlayer === true) {
+        clearBoard();
+        twoPlayer = false;
+    } else if (twoPlayer === false) {
+        clearBoard();
+        twoPlayer = true;
+    }
 });
