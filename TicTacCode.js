@@ -28,30 +28,25 @@ const Gameboard = (() => {
     };
 })();
 
-const Player = (mark) => {
-    const sayMark = function () {
-        if (mark === 0) {
-            console.log('o');
-        } else if (mark === 1) {
-            console.log('x');
-        } else {
-            console.log('ERROR!');
+function theRandomBrain() {
+    setTimeout(function () {
+        function randomNumGen() {
+            let randomNum = Math.floor(Math.random() * 10);
+            return randomNum;
         }
-    };
+        let compChoice = randomNumGen();
 
-    return {
-        sayMark,
-    };
-};
+        console.log(Gameboard.gameArray[10]);
 
-function computerPlayer() {
-    if (wonGame != true) {
-        if (lostGame != true) {
-            setTimeout(function () {
-                function randomNumGen() {
-                    let randomNum = Math.floor(Math.random() * 10);
-                    return randomNum;
-                }
+        if (Gameboard.gameArray[compChoice] === '') {
+            roundCount++;
+            Gameboard.gameArray[compChoice] = 0;
+        } else {
+            let compChoice = randomNumGen();
+            if (Gameboard.gameArray[compChoice] === '') {
+                roundCount++;
+                Gameboard.gameArray[compChoice] = 0;
+            } else {
                 let compChoice = randomNumGen();
                 if (Gameboard.gameArray[compChoice] === '') {
                     roundCount++;
@@ -83,34 +78,28 @@ function computerPlayer() {
                                     ) {
                                         roundCount++;
                                         Gameboard.gameArray[compChoice] = 0;
-                                    } else {
-                                        let compChoice = randomNumGen();
-                                        if (
-                                            Gameboard.gameArray[compChoice] ===
-                                            ''
-                                        ) {
-                                            roundCount++;
-                                            Gameboard.gameArray[compChoice] = 0;
-                                        } else {
-                                            let compChoice = randomNumGen();
-                                            if (
-                                                Gameboard.gameArray[
-                                                    compChoice
-                                                ] === ''
-                                            ) {
-                                                roundCount++;
-                                                Gameboard.gameArray[
-                                                    compChoice
-                                                ] = 0;
-                                            }
-                                        }
+                                    } else if (
+                                        wonGame != true &&
+                                        lostGame != true
+                                    ) {
+                                        roundCount++;
+                                        console.log('ERROR');
                                     }
                                 }
                             }
                         }
                     }
                 }
-            }, 500);
+            }
+        }
+    }, 500);
+}
+
+function computerPlayer() {
+    //the brain
+    if (wonGame != true) {
+        if (lostGame != true) {
+            setTimeout(theRandomBrain(), 10);
         }
     }
 }
@@ -118,12 +107,12 @@ function computerPlayer() {
 function createSquares() {
     const squares = document.createElement('div');
     squares.classList.add('gameSquares');
-    squares.classList.add(`square${squareCount + 1}`);
     const thisNumber = squareCount;
     squareCount++;
+
+    //UPDATE SQUARES BASED OFF OF ARRAY
     setInterval(function () {
         if (Gameboard.gameArray[thisNumber] === '') {
-            squares.style.backgroundColor = 'rgb(71, 81, 105)';
             squares.innerHTML = '';
         }
         if (Gameboard.gameArray[thisNumber] === 1) {
@@ -133,6 +122,7 @@ function createSquares() {
             squares.innerHTML = 'O';
         }
     }, 100);
+
     squares.addEventListener('click', function () {
         if (wonGame != true && lostGame != true) {
             if (Gameboard.gameArray[thisNumber] === '') {
@@ -143,11 +133,7 @@ function createSquares() {
                     console.log(roundCount);
                     computerPlayer();
                 } else {
-                    // roundCount++;
-                    // Gameboard.gameArray[thisNumber] = 0;
-                    // console.log(Gameboard.gameArray);
-                    // console.log(roundCount);
-                    // computerPlayer();
+                    console.log('ERROR');
                 }
             }
         }
@@ -176,17 +162,6 @@ function createGameBoard() {
     body.appendChild(resetButton);
 }
 createGameBoard();
-
-// for (let i = 0; i < Gameboard.gameArray.length; i++) {
-//     Gameboard.add(1, i);
-// }
-// Gameboard.logArray();
-
-const playerOne = Player(0);
-const playerTwo = Player(1);
-
-playerOne.sayMark();
-playerTwo.sayMark();
 
 function gameLogic() {
     let Zero = Gameboard.gameArray[0];
@@ -259,9 +234,17 @@ function updateText() {
             gameHeader.innerHTML = `Computers Turn`;
         }
     } else if (wonGame === true) {
+        body.classList.add('winAnimate');
         gameHeader.innerHTML = 'You Won';
+        setTimeout(function () {
+            body.classList.remove('winAnimate');
+        }, 4000);
     } else if (lostGame === true) {
+        body.classList.add('loseAnimate');
         gameHeader.innerHTML = 'You Lost';
+        setTimeout(function () {
+            body.classList.remove('loseAnimate');
+        }, 4000);
     } else {
         gameHeader.innerHTML = `No One Won`;
     }
@@ -269,7 +252,6 @@ function updateText() {
 
 function updateFunctions() {
     gameLogic();
-    // updatePage();
     updateText();
 }
 

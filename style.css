@@ -11,6 +11,8 @@ body {
 
 h1 {
     color: rgb(253, 255, 239);
+    font-size: 35px;
+    margin: 30px;
 }
 
 .gameboard {
@@ -64,4 +66,44 @@ h1 {
     background-color: rgb(93, 170, 85);
     border-style: solid;
     border-color: rgb(82, 152, 75);
+}
+
+.winAnimate {
+    animation-name: winAnimation;
+    animation-duration: 4s;
+}
+
+.loseAnimate {
+    animation-name: loseAnimation;
+    animation-duration: 4s;
+}
+
+@keyframes winAnimation {
+    0% {
+        background-color: rgb(52, 57, 72);
+    }
+    10% {
+        background-color: rgb(36, 110, 39);
+    }
+    60% {
+        background-color: rgb(52, 57, 72);
+    }
+    100% {
+        background-color: rgb(52, 57, 72);
+    }
+}
+
+@keyframes loseAnimation {
+    0% {
+        background-color: rgb(52, 57, 72);
+    }
+    10% {
+        background-color: rgb(110, 41, 36);
+    }
+    60% {
+        background-color: rgb(52, 57, 72);
+    }
+    100% {
+        background-color: rgb(52, 57, 72);
+    }
 }
