@@ -55,6 +55,9 @@ h1 {
     border-width: 0.5px;
     color: rgb(253, 255, 239);
 }
+.gameSquares:hover {
+    background-color: rgb(73, 85, 113);
+}
 
 .gameLetter {
     font-size: 80px;
