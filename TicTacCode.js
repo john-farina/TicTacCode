@@ -1,328 +1,349 @@
-const body = document.querySelector('body');
 let squareCount = 0;
 let roundCount = 0;
 let wonGame = false;
 let lostGame = false;
 let twoPlayer = false;
+let gridSize = 3;
 
-const gameHeader = document.createElement('h1');
-gameHeader.classList.add('gameHeader');
-const buttonContainer = document.createElement('div');
-buttonContainer.classList.add('buttonContainer');
-const resetButton = document.createElement('button');
-resetButton.classList.add('resetButton');
-resetButton.innerHTML = 'Reset';
-const gameModeButton = document.createElement('button');
-gameModeButton.classList.add('gameModeButton');
+const body = document.querySelector("body");
+const gameHeader = document.createElement("h1");
+const buttonContainer = document.createElement("div");
+const resetButton = document.createElement("button");
+const gameModeButton = document.createElement("button");
+
+gameHeader.classList.add("gameHeader");
+
+buttonContainer.classList.add("buttonContainer");
+
+resetButton.classList.add("resetButton");
+resetButton.innerHTML = "Reset";
+
+gameModeButton.classList.add("gameModeButton");
+
 buttonContainer.appendChild(resetButton);
 buttonContainer.appendChild(gameModeButton);
 
 const Gameboard = (() => {
-    const gameArray = ['', '', '', '', '', '', '', '', ''];
-    const logArray = () => console.log(gameArray);
-    const resetBoard = function () {
-        for (let i = 0; i < gameArray.length; i++) {
-            gameArray[i] = '';
-        }
-    };
-    const add = (mark, number) => (gameArray[number] = mark);
+  const gameArray = ["", "", "", "", "", "", "", "", ""];
 
-    return {
-        gameArray,
-        logArray,
-        resetBoard,
-        add,
-    };
+  function logArray() {
+    console.log(gameArray);
+  }
+
+  function resetBoard() {
+    for (let i = 0; i < gameArray.length; i++) {
+      gameArray[i] = "";
+    }
+  }
+
+  function add(mark, number) {
+    gameArray[number] = mark;
+  }
+
+  return {
+    gameArray,
+    logArray,
+    resetBoard,
+    add,
+  };
 })();
 
 function theRandomBrain() {
-    setTimeout(function () {
-        function randomNumGen() {
-            let randomNum = Math.floor(Math.random() * 10);
-            return randomNum;
-        }
-        let compChoice = randomNumGen();
+  setTimeout(() => {
+    function random() {
+      return Math.floor(Math.random() * 10);
+    }
+    let compChoice = random();
 
-        console.log(Gameboard.gameArray[10]);
+    if (Gameboard.gameArray[compChoice] === "") {
+      roundCount++;
 
-        if (Gameboard.gameArray[compChoice] === '') {
-            roundCount++;
-            Gameboard.gameArray[compChoice] = 0;
-        } else {
-            let compChoice = randomNumGen();
-            if (Gameboard.gameArray[compChoice] === '') {
-                roundCount++;
-                Gameboard.gameArray[compChoice] = 0;
-            } else {
-                let compChoice = randomNumGen();
-                if (Gameboard.gameArray[compChoice] === '') {
-                    roundCount++;
-                    Gameboard.gameArray[compChoice] = 0;
-                } else {
-                    let compChoice = randomNumGen();
-                    if (Gameboard.gameArray[compChoice] === '') {
-                        roundCount++;
-                        Gameboard.gameArray[compChoice] = 0;
-                    } else {
-                        let compChoice = randomNumGen();
-                        if (Gameboard.gameArray[compChoice] === '') {
-                            roundCount++;
-                            Gameboard.gameArray[compChoice] = 0;
-                        } else {
-                            let compChoice = randomNumGen();
-                            if (Gameboard.gameArray[compChoice] === '') {
-                                roundCount++;
-                                Gameboard.gameArray[compChoice] = 0;
-                            } else {
-                                let compChoice = randomNumGen();
-                                if (Gameboard.gameArray[compChoice] === '') {
-                                    roundCount++;
-                                    Gameboard.gameArray[compChoice] = 0;
-                                } else {
-                                    let compChoice = randomNumGen();
-                                    if (
-                                        Gameboard.gameArray[compChoice] === ''
-                                    ) {
-                                        roundCount++;
-                                        Gameboard.gameArray[compChoice] = 0;
-                                    } else if (
-                                        wonGame != true &&
-                                        lostGame != true
-                                    ) {
-                                        roundCount++;
-                                        console.log('ERROR');
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }, 500);
+      Gameboard.gameArray[compChoice] = 0;
+
+      return;
+    }
+
+    if (wonGame || lostGame) {
+      return;
+    }
+
+    theRandomBrain();
+  }, 500);
 }
 
 function computerPlayer() {
-    //the brain
-    if (wonGame != true) {
-        if (lostGame != true) {
-            setTimeout(theRandomBrain(), 10);
-        }
-    }
+  if (wonGame != true || lostGame != true) {
+    setTimeout(theRandomBrain(), 10);
+  }
 }
 
 function createSquares() {
-    const squares = document.createElement('div');
-    squares.classList.add('gameSquares');
-    const thisNumber = squareCount;
-    squareCount++;
+  const squares = document.createElement("div");
+  const thisNumber = squareCount;
 
-    //UPDATE SQUARES BASED OFF OF ARRAY
-    setInterval(function () {
-        if (Gameboard.gameArray[thisNumber] === '') {
-            squares.innerHTML = '';
-        }
-        if (Gameboard.gameArray[thisNumber] === 1) {
-            squares.innerHTML = 'X';
-        }
-        if (Gameboard.gameArray[thisNumber] === 0) {
-            squares.innerHTML = 'O';
-        }
-    }, 100);
+  squares.classList.add("gameSquares");
+  squareCount++;
 
-    squares.addEventListener('click', function () {
-        if (wonGame != true && lostGame != true) {
-            if (Gameboard.gameArray[thisNumber] === '') {
-                if (roundCount % 2 === 0) {
-                    roundCount++;
-                    Gameboard.gameArray[thisNumber] = 1;
-                    console.log(Gameboard.gameArray);
-                    console.log(roundCount);
-                    if (twoPlayer === false) {
-                        computerPlayer();
-                    }
-                } else {
-                    if (twoPlayer === true) {
-                        roundCount++;
-                        Gameboard.gameArray[thisNumber] = 0;
-                        console.log(Gameboard.gameArray);
-                        console.log(roundCount);
-                    }
-                    console.log('ERROR');
-                }
-            }
-        }
-    });
+  //Update Squares Based off Array
+  setInterval(() => {
+    if (Gameboard.gameArray[thisNumber] === "") {
+      squares.innerHTML = "";
+    }
+    if (Gameboard.gameArray[thisNumber] === 1) {
+      squares.innerHTML = "X";
+    }
+    if (Gameboard.gameArray[thisNumber] === 0) {
+      squares.innerHTML = "O";
+    }
+  }, 100);
 
-    return squares;
+  squares.addEventListener("click", () => {
+    if (wonGame || lostGame || Gameboard.gameArray[thisNumber] !== "") {
+      return;
+    }
+
+    if (roundCount % 2 === 0) {
+      roundCount++;
+
+      Gameboard.gameArray[thisNumber] = 1;
+
+      if (!twoPlayer) {
+        computerPlayer();
+      }
+    } else {
+      if (twoPlayer) {
+        roundCount++;
+
+        Gameboard.gameArray[thisNumber] = 0;
+      }
+    }
+  });
+
+  return squares;
 }
 
 function createRows() {
-    const gameRow = document.createElement('div');
-    gameRow.classList.add('gameRow');
-    for (let i = 0; i < 3; i++) {
-        gameRow.appendChild(createSquares());
-    }
-    return gameRow;
+  const gameRow = document.createElement("div");
+
+  gameRow.classList.add("gameRow");
+
+  for (let i = 0; i < gridSize; i++) {
+    gameRow.appendChild(createSquares());
+  }
+
+  return gameRow;
 }
 
 function createGameBoard() {
-    const gameBoardContainer = document.createElement('div');
-    gameBoardContainer.classList.add('gameboard');
-    for (let i = 0; i < 3; i++) {
-        gameBoardContainer.appendChild(createRows());
-    }
-    body.appendChild(gameHeader);
-    body.appendChild(gameBoardContainer);
-    body.appendChild(buttonContainer);
+  const gameBoardContainer = document.createElement("div");
+
+  gameBoardContainer.classList.add("gameboard");
+
+  for (let i = 0; i < gridSize; i++) {
+    gameBoardContainer.appendChild(createRows());
+  }
+
+  body.appendChild(gameHeader);
+  body.appendChild(gameBoardContainer);
+  body.appendChild(buttonContainer);
 }
+
 createGameBoard();
 
 function gameLogic() {
-    let Zero = Gameboard.gameArray[0];
-    let One = Gameboard.gameArray[1];
-    let Two = Gameboard.gameArray[2];
-    let Three = Gameboard.gameArray[3];
-    let Four = Gameboard.gameArray[4];
-    let Five = Gameboard.gameArray[5];
-    let Six = Gameboard.gameArray[6];
-    let Seven = Gameboard.gameArray[7];
-    let Eight = Gameboard.gameArray[8];
-    //down
-    //0,1,2
-    //3,4,5
-    //6,7,8
-    if (
-        (Zero === 1 && One === 1 && Two === 1) ||
-        (Three === 1 && Four === 1 && Five === 1) ||
-        (Six === 1 && Seven === 1 && Eight === 1)
-    ) {
-        wonGame = true;
-    }
-    if (
-        (Zero === 0 && One === 0 && Two === 0) ||
-        (Three === 0 && Four === 0 && Five === 0) ||
-        (Six === 0 && Seven === 0 && Eight === 0)
-    ) {
-        lostGame = true;
-    }
-    //side
-    //0,3,6
-    //1,4,7
-    //2,5,8
-    if (
-        (Zero === 1 && Three === 1 && Six === 1) ||
-        (One === 1 && Four === 1 && Seven === 1) ||
-        (Two === 1 && Five === 1 && Eight === 1)
-    ) {
-        wonGame = true;
-    }
-    if (
-        (Zero === 0 && Three === 0 && Six === 0) ||
-        (One === 0 && Four === 0 && Seven === 0) ||
-        (Two === 0 && Five === 0 && Eight === 0)
-    ) {
-        lostGame = true;
-    }
-    //diagnal
-    //0,4,8
-    //2,4,6
-    if (
-        (Zero === 1 && Four === 1 && Eight === 1) ||
-        (Two === 1 && Four === 1 && Six === 1)
-    ) {
-        wonGame = true;
-    }
-    if (
-        (Zero === 0 && Four === 0 && Eight === 0) ||
-        (Two === 0 && Four === 0 && Six === 0)
-    ) {
-        lostGame = true;
-    }
+  let Zero = Gameboard.gameArray[0];
+  let One = Gameboard.gameArray[1];
+  let Two = Gameboard.gameArray[2];
+  let Three = Gameboard.gameArray[3];
+  let Four = Gameboard.gameArray[4];
+  let Five = Gameboard.gameArray[5];
+  let Six = Gameboard.gameArray[6];
+  let Seven = Gameboard.gameArray[7];
+  let Eight = Gameboard.gameArray[8];
+
+  //down
+  //0,1,2
+  //3,4,5
+  //6,7,8
+
+  if (
+    (Zero === 1 && One === 1 && Two === 1) ||
+    (Three === 1 && Four === 1 && Five === 1) ||
+    (Six === 1 && Seven === 1 && Eight === 1)
+  ) {
+    wonGame = true;
+  }
+
+  if (
+    (Zero === 0 && One === 0 && Two === 0) ||
+    (Three === 0 && Four === 0 && Five === 0) ||
+    (Six === 0 && Seven === 0 && Eight === 0)
+  ) {
+    lostGame = true;
+  }
+
+  //side
+  //0,3,6
+  //1,4,7
+  //2,5,8
+
+  if (
+    (Zero === 1 && Three === 1 && Six === 1) ||
+    (One === 1 && Four === 1 && Seven === 1) ||
+    (Two === 1 && Five === 1 && Eight === 1)
+  ) {
+    wonGame = true;
+  }
+
+  if (
+    (Zero === 0 && Three === 0 && Six === 0) ||
+    (One === 0 && Four === 0 && Seven === 0) ||
+    (Two === 0 && Five === 0 && Eight === 0)
+  ) {
+    lostGame = true;
+  }
+
+  //diagnal
+  //0,4,8
+  //2,4,6
+
+  if (
+    (Zero === 1 && Four === 1 && Eight === 1) ||
+    (Two === 1 && Four === 1 && Six === 1)
+  ) {
+    wonGame = true;
+  }
+
+  if (
+    (Zero === 0 && Four === 0 && Eight === 0) ||
+    (Two === 0 && Four === 0 && Six === 0)
+  ) {
+    lostGame = true;
+  }
 }
 
 function updateText() {
-    if (roundCount < 9 && wonGame != true && lostGame != true) {
-        if (twoPlayer === false) {
-            if (roundCount % 2 === 0) {
-                gameHeader.innerHTML = `Players Turn`;
-            } else {
-                gameHeader.innerHTML = `Computers Turn`;
-            }
-        } else if (twoPlayer === true) {
-            if (roundCount % 2 === 0) {
-                gameHeader.innerHTML = `Player Ones Turn`;
-            } else {
-                gameHeader.innerHTML = `Player Twos Turn`;
-            }
-        }
-    } else if (wonGame === true && twoPlayer === false) {
-        body.classList.add('winAnimate');
-        gameHeader.innerHTML = 'You Won';
-        setTimeout(function () {
-            body.classList.remove('winAnimate');
+  console.log("round count", roundCount);
+
+  if (twoPlayer) {
+    gameModeButton.innerHTML = "Single Player";
+  } else {
+    gameModeButton.innerHTML = "Multiplayer";
+  }
+
+  if (roundCount === 9 && !wonGame && !lostGame) {
+    console.log("no one wins");
+    gameHeader.innerHTML = `No One Won`;
+  }
+
+  if (wonGame || lostGame) {
+    if (!twoPlayer) {
+      if (wonGame) {
+        body.classList.add("winAnimate");
+
+        gameHeader.innerHTML = "You Won";
+
+        setTimeout(() => {
+          body.classList.remove("winAnimate");
         }, 4000);
-    } else if (lostGame === true && twoPlayer === false) {
-        body.classList.add('loseAnimate');
-        gameHeader.innerHTML = 'You Lost';
-        setTimeout(function () {
-            body.classList.remove('loseAnimate');
+
+        return;
+      }
+
+      if (lostGame) {
+        body.classList.add("loseAnimate");
+
+        gameHeader.innerHTML = "You Lost";
+
+        setTimeout(() => {
+          body.classList.remove("loseAnimate");
         }, 4000);
-    } else if (wonGame === true && twoPlayer === true) {
-        body.classList.add('winAnimate');
-        gameHeader.innerHTML = 'Player One Wins!';
-        setTimeout(function () {
-            body.classList.remove('winAnimate');
-        }, 4000);
-    } else if (lostGame === true && twoPlayer === true) {
-        body.classList.add('winAnimate');
-        gameHeader.innerHTML = 'Player Two Wins!';
-        setTimeout(function () {
-            body.classList.remove('winAnimate');
-        }, 4000);
+
+        return;
+      }
+    }
+
+    if (wonGame) {
+      body.classList.add("winAnimate");
+
+      gameHeader.innerHTML = "Player One Wins!";
+
+      setTimeout(function () {
+        body.classList.remove("winAnimate");
+      }, 4000);
+
+      return;
+    }
+
+    if (lostGame) {
+      body.classList.add("winAnimate");
+
+      gameHeader.innerHTML = "Player Two Wins!";
+
+      setTimeout(function () {
+        body.classList.remove("winAnimate");
+      }, 4000);
+
+      return;
+    }
+
+    return;
+  }
+
+  if (!twoPlayer && roundCount < 9) {
+    if (roundCount % 2 === 0) {
+      gameHeader.innerHTML = `Players Turn`;
     } else {
-        gameHeader.innerHTML = `No One Won`;
+      gameHeader.innerHTML = `Computers Turn`;
     }
-    if (twoPlayer === false) {
-        gameModeButton.innerHTML = 'Multiplayer';
-    } else if (twoPlayer === true) {
-        gameModeButton.innerHTML = 'Single Player';
+  }
+
+  if (twoPlayer && roundCount < 9) {
+    if (roundCount % 2 === 0) {
+      gameHeader.innerHTML = `Player Ones Turn`;
+    } else {
+      gameHeader.innerHTML = `Player Twos Turn`;
     }
+  }
 }
 
 function updateFunctions() {
-    gameLogic();
-    updateText();
+  gameLogic();
+  updateText();
 }
 
 function gameLoop() {
-    updateFunctions();
+  updateFunctions();
 }
 
 (function start() {
-    let myInterval = setInterval(gameLoop, 200);
-    return myInterval;
+  let myInterval = setInterval(gameLoop, 200);
+
+  return myInterval;
 })();
 
 function clearBoard() {
-    squareCount = 0;
-    roundCount = 0;
-    wonGame = false;
-    lostGame = false;
-    Gameboard.resetBoard();
-    console.log(Gameboard.gameArray);
+  squareCount = 0;
+
+  roundCount = 0;
+
+  wonGame = false;
+
+  lostGame = false;
+
+  Gameboard.resetBoard();
 }
 
-resetButton.addEventListener('click', function () {
-    clearBoard();
+resetButton.addEventListener("click", () => {
+  clearBoard();
 });
 
-gameModeButton.addEventListener('click', function () {
-    if (twoPlayer === true) {
-        clearBoard();
-        twoPlayer = false;
-    } else if (twoPlayer === false) {
-        clearBoard();
-        twoPlayer = true;
-    }
+gameModeButton.addEventListener("click", () => {
+  if (twoPlayer) {
+    clearBoard();
+    twoPlayer = false;
+  } else {
+    clearBoard();
+    twoPlayer = true;
+  }
 });
