@@ -1,21 +1,5 @@
 <a name="readme-top"></a>
 
-what i did in this project
-Javascript
-- Created whole project maipulating DOM in javascript (minimal styling with css)
-- The state of this project is an array of 9 undefined variables
-- the gamestate table is created in the scope and i return functions that help with maipulating the array for the game,
-- creates a DOM table with 9 squares that correspond with the gamestate Array to allow users to play the game
-- each square has a event lsitener that gets the round number and places the right tile accordingly "X or O" (gets put in as a 0 or a 1 for the gamestate), and wont allow users to click when the game has ended or computer is deciding
-- each square on the table has its own animationLoop which is a setinterval listening to the array that goes with that square
-- game logic is done by detecting if each of the marks go in a line or diagnal and gets updated in the gameloop which also includes updating text.
-- The Random Bot is done by using recursion i am calling the same function over and over as it guesses a random number in the array and detecting if it is undefined. if its not undefined it runs again untill it finds one.
-- Local Two player mode where it removes the bots and allows user to play for either X or O with one of there friends.
-
-- went for a minimal design with minimal animations to show that u have won or lost
-
-
-
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
@@ -39,24 +23,24 @@ Javascript
       </ul>
     </li>
     <li>
-      <a href="#getting-started">JavaScript</a>
+      <a href="#javascript">JavaScript</a>
       <ul>
-        <li><a href="#installation">Game State</a></li>
-        <li><a href="#installation">DOM Table Interaction</a></li>
+        <li><a href="#game-state">Game State</a></li>
+        <li><a href="#dom-table-interaction">DOM Table Interaction</a></li>
             <ul>
-                <li><a href="#installation">Squares</a></li>
+                <li><a href="#squares">Squares</a></li>
             </ul>
-        <li><a href="#installation">Random Bot</a></li>
-        <li><a href="#installation">Game Logic</a></li>
-        <li><a href="#installation">Local Two Player</a></li>
+        <li><a href="#random-bot">Random Bot</a></li>
+        <li><a href="#game-logic">Game Logic</a></li>
+        <li><a href="#local-two-player">Local Two Player</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Design</a></li>
+    <li><a href="#design">Design</a></li>
        <ul>
-            <li><a href="#installation">Table</a></li>
-            <li><a href="#installation">Animations</a></li>
+            <li><a href="#table">Table</a></li>
+            <li><a href="#animations">Animations</a></li>
         </ul>
-    <li><a href="#contact">Usage</a></li>
+    <li><a href="#usage">Usage</a></li>
     <li><a href="#contact">Contact</a></li>
   </ol>
 </details>
@@ -87,11 +71,16 @@ Squares are also running a animationLoop on themselves to detect which value to 
 The random guessing bot is using recursion to find an empty spot in the array. It guesses a random number through the length of the array, and if the spot it chose wasnt avalable *(undefined)* it will keep going untill it finds one.
 
 ### Game Logic
+for the game logic i am running a gameloop every 500 ms with a function that watches the array to see if a certain Player value are in 3 spots, and the same with the other Player value. If one player matches all 3 spots in the array (diagnol, across, down) it triggers a win, if no player matches 3 spots it triggers a tie and no one wins
 
 ### Local Two Player
+for local two player instead of running <a>Random Bot</a> every other round i wait for another event in the sqaures on the Odd round to count for the other players turn, all code is the same other then that.
 
 ## Design
+Went for a very minimal tic tac toe design, creating a grid that revolves around the size of each square and a outer container to add more depth.
 
+### **Animations**
+For the win and loose i wanted to make it slightly more meaningful so i added a green and red animation for the background color for win or loose. No animation plays when player ties
 <!-- USAGE EXAMPLES -->
 ## Usage
 
