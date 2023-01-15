@@ -17,7 +17,17 @@ buttonContainer.appendChild(resetButton);
 buttonContainer.appendChild(gameModeButton);
 
 const Gameboard = (() => {
-  const gameArray = ["", "", "", "", "", "", "", "", ""];
+  const gameArray = [
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+  ];
 
   function logArray() {
     console.log(gameArray);
@@ -49,7 +59,7 @@ function theRandomBrain() {
 
     let compChoice = random();
 
-    if (Gameboard.gameArray[compChoice] === "") {
+    if (Gameboard.gameArray[compChoice] === undefined) {
       roundCount++;
 
       Gameboard.gameArray[compChoice] = 0;
@@ -82,7 +92,7 @@ function createSquares() {
 
   //Update Squares Based off Array
   setInterval(() => {
-    if (Gameboard.gameArray[thisNumber] === "") {
+    if (Gameboard.gameArray[thisNumber] === undefined) {
       squares.innerHTML = "";
     }
 
@@ -96,7 +106,7 @@ function createSquares() {
   }, 100);
 
   squares.addEventListener("click", () => {
-    if (wonGame || lostGame || Gameboard.gameArray[thisNumber] !== "") {
+    if (wonGame || lostGame || Gameboard.gameArray[thisNumber] !== undefined) {
       return;
     }
 
