@@ -4,12 +4,14 @@ let wonGame = false;
 let lostGame = false;
 let twoPlayer = false;
 let gridSize = 3;
+let botThinking = false;
 
 const body = document.querySelector("body");
 const gameHeader = document.createElement("h1");
 const buttonContainer = document.createElement("div");
 const resetButton = document.createElement("button");
 const gameModeButton = document.createElement("button");
+const thinkingText = document.createElement("p");
 
 gameHeader.classList.add("gameHeader");
 
@@ -19,6 +21,8 @@ resetButton.classList.add("resetButton");
 resetButton.innerHTML = "Reset";
 
 gameModeButton.classList.add("gameModeButton");
+
+thinkingText.classList.add("thinkingText");
 
 buttonContainer.appendChild(resetButton);
 buttonContainer.appendChild(gameModeButton);
@@ -53,6 +57,7 @@ function theRandomBrain() {
     function random() {
       return Math.floor(Math.random() * 10);
     }
+
     let compChoice = random();
 
     if (Gameboard.gameArray[compChoice] === "") {
@@ -60,6 +65,7 @@ function theRandomBrain() {
 
       Gameboard.gameArray[compChoice] = 0;
 
+      botThinking = false;
       return;
     }
 
@@ -73,6 +79,7 @@ function theRandomBrain() {
 
 function computerPlayer() {
   if (wonGame != true || lostGame != true) {
+    botThinking = true;
     setTimeout(theRandomBrain(), 10);
   }
 }
@@ -146,6 +153,7 @@ function createGameBoard() {
   }
 
   body.appendChild(gameHeader);
+  body.appendChild(thinkingText);
   body.appendChild(gameBoardContainer);
   body.appendChild(buttonContainer);
 }
@@ -224,11 +232,39 @@ function gameLogic() {
   }
 }
 
+function loseAnimate(lost) {
+  if (lost) {
+    gameHeader.innerHTML = "You Lost";
+  }
+
+  body.classList.add("loseAnimate");
+
+  setTimeout(() => {
+    body.classList.remove("loseAnimate");
+  }, 4000);
+}
+
+function winAnimate() {
+  body.classList.add("winAnimate");
+
+  setTimeout(() => {
+    body.classList.remove("winAnimate");
+  }, 4000);
+}
+
 function updateText() {
   console.log("round count", roundCount);
+  console.log(botThinking);
+
+  if (botThinking && roundCount < 9 && !wonGame && !lostGame) {
+    thinkingText.innerHTML = "Computer is thinking about the next move...";
+  } else {
+    thinkingText.innerHTML = " ";
+  }
 
   if (twoPlayer) {
     gameModeButton.innerHTML = "Single Player";
+    thinkingText.innerHTML = " ";
   } else {
     gameModeButton.innerHTML = "Multiplayer";
   }
@@ -236,56 +272,39 @@ function updateText() {
   if (roundCount === 9 && !wonGame && !lostGame) {
     gameHeader.innerHTML = `No One Won`;
 
+    loseAnimate(false);
     return;
   }
 
   if (wonGame || lostGame) {
     if (!twoPlayer) {
       if (wonGame) {
-        body.classList.add("winAnimate");
-
         gameHeader.innerHTML = "You Won";
 
-        setTimeout(() => {
-          body.classList.remove("winAnimate");
-        }, 4000);
+        winAnimate();
 
         return;
       }
 
       if (lostGame) {
-        body.classList.add("loseAnimate");
-
-        gameHeader.innerHTML = "You Lost";
-
-        setTimeout(() => {
-          body.classList.remove("loseAnimate");
-        }, 4000);
+        loseAnimate(true);
 
         return;
       }
     }
 
     if (wonGame) {
-      body.classList.add("winAnimate");
-
       gameHeader.innerHTML = "Player One Wins!";
 
-      setTimeout(function () {
-        body.classList.remove("winAnimate");
-      }, 4000);
+      winAnimate();
 
       return;
     }
 
     if (lostGame) {
-      body.classList.add("winAnimate");
-
       gameHeader.innerHTML = "Player Two Wins!";
 
-      setTimeout(function () {
-        body.classList.remove("winAnimate");
-      }, 4000);
+      winAnimate();
 
       return;
     }

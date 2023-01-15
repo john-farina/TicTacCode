@@ -7,6 +7,7 @@ body {
     justify-content: center;
     font-family: 'Lato', sans-serif;
     color: rgb(253, 255, 239);
+    position: relative;
 }
 
 h1 {
@@ -14,6 +15,16 @@ h1 {
     font-size: 35px;
     margin: 30px;
     margin-top: 70px;
+}
+
+.thinkingText {
+    font-weight: 200;
+    letter-spacing: 1px;
+    font-size: .9rem;
+    position: absolute;
+    margin-top: -350px;
+    opacity: 60%;
+    animation: grow 5s infinite;
 }
 
 .gameboard {
@@ -26,16 +37,6 @@ h1 {
     flex-direction: column;
     background-color: rgb(66, 77, 96);
     box-shadow: 0px 20px 20px 30px rgba(0, 0, 0, 5%);
-}
-
-@media (max-width: 480px) {
-    h1 {
-        margin-top: 50px;
-    }
-    .gameboard {
-        width: 380px;
-        height: 380px;
-    }
 }
 
 .gameRow {
@@ -126,5 +127,30 @@ button:hover {
     }
     100% {
         background-color: rgb(52, 57, 72);
+    }
+}
+
+@keyframes grow {
+    0% {
+        scale: 100%;
+    }
+    50% {
+        scale: 102%;
+    }
+    100% {
+        scale: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        margin-top: 50px;
+    }
+    .gameboard {
+        width: 380px;
+        height: 380px;
+    }
+    .thinkingText {
+        font-size: .7rem;
     }
 }
