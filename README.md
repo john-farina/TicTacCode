@@ -51,6 +51,8 @@
 
 A web Tic Tac Toe game, play against a random bot. but its best to play it two player locally with a friend!
 
+<img src="./img/Win-TicTacToe.gif" />
+
 ### Built With
  - JavaScript
  - CSS
@@ -70,8 +72,12 @@ Squares are also running a animationLoop on themselves to detect which value to 
 ### Random Bot
 The random guessing bot is using recursion to find an empty spot in the array. It guesses a random number through the length of the array, and if the spot it chose wasnt avalable *(undefined)* it will keep going untill it finds one.
 
+<img src="./img/Lost-TicTacToe.gif" />
+
 ### Game Logic
 for the game logic i am running a gameloop every 500 ms with a function that watches the array to see if a certain Player value are in 3 spots, and the same with the other Player value. If one player matches all 3 spots in the array (diagnol, across, down) it triggers a win, if no player matches 3 spots it triggers a tie and no one wins
+
+<img src="./img/Tie-TicTacToe.gif" />
 
 ### Local Two Player
 for local two player instead of running <a>Random Bot</a> every other round i wait for another event in the sqaures on the Odd round to count for the other players turn, all code is the same other then that.
@@ -92,7 +98,7 @@ For Local Two Player press the multiplayer button, Player one chooses their squa
 
 **John Farina** - johnfarina8@gmail.com
 
-Project Link: [github.com/john-farina/Zoltar](https://github.com/john-farina/Zoltar)
+Project Link: [github.com/john-farina/TicTacCode](https://github.com/john-farina/TicTacCode)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

@@ -361,11 +361,11 @@ gameModeButton.addEventListener("click", () => {
   if (twoPlayer) {
     Gameboard.resetBoard();
 
-    twoPlayer = !twoPlayer;
+    twoPlayer = false;
   } else {
     Gameboard.resetBoard();
 
-    twoPlayer = !twoPlayer;
+    twoPlayer = true;
   }
 });
 
