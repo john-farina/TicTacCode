@@ -34,8 +34,15 @@ const Gameboard = (() => {
   }
 
   function resetBoard() {
+    roundCount = 0;
+    wonGame = false;
+    lostGame = false;
+    twoPlayer = false;
+    gridSize = 3;
+    botThinking = false;
+
     for (let i = 0; i < gameArray.length; i++) {
-      gameArray[i] = "";
+      gameArray[i] = undefined;
     }
   }
 
@@ -54,7 +61,7 @@ const Gameboard = (() => {
 function theRandomBrain() {
   setTimeout(() => {
     function random() {
-      return Math.floor(Math.random() * 10);
+      return Math.floor(Math.random() * 9);
     }
 
     let compChoice = random();
@@ -73,7 +80,7 @@ function theRandomBrain() {
     }
 
     theRandomBrain();
-  }, 300);
+  }, 100);
 }
 
 function computerPlayer() {
@@ -106,7 +113,12 @@ function createSquares() {
   }, 100);
 
   squares.addEventListener("click", () => {
-    if (wonGame || lostGame || Gameboard.gameArray[thisNumber] !== undefined) {
+    if (
+      botThinking ||
+      wonGame ||
+      lostGame ||
+      Gameboard.gameArray[thisNumber] !== undefined
+    ) {
       return;
     }
 
@@ -119,11 +131,9 @@ function createSquares() {
         computerPlayer();
       }
     } else {
-      if (twoPlayer) {
-        roundCount++;
+      roundCount++;
 
-        Gameboard.gameArray[thisNumber] = 0;
-      }
+      Gameboard.gameArray[thisNumber] = 0;
     }
   });
 
@@ -156,8 +166,6 @@ function createGameBoard() {
   body.appendChild(gameBoardContainer);
   body.appendChild(buttonContainer);
 }
-
-createGameBoard();
 
 function gameLogic() {
   let Zero = Gameboard.gameArray[0];
@@ -252,9 +260,6 @@ function winAnimate() {
 }
 
 function updateText() {
-  console.log("round count", roundCount);
-  console.log(botThinking);
-
   if (botThinking && roundCount < 9 && !wonGame && !lostGame) {
     thinkingText.innerHTML = "Computer is thinking about the next move...";
   } else {
@@ -263,6 +268,7 @@ function updateText() {
 
   if (twoPlayer) {
     gameModeButton.innerHTML = "Single Player";
+
     thinkingText.innerHTML = " ";
   } else {
     gameModeButton.innerHTML = "Multiplayer";
@@ -272,6 +278,7 @@ function updateText() {
     gameHeader.innerHTML = `No One Won`;
 
     loseAnimate(false);
+
     return;
   }
 
@@ -335,41 +342,31 @@ function gameLoop() {
   updateFunctions();
 }
 
-(function start() {
+function start() {
   let myInterval = setInterval(gameLoop, 200);
 
+  createGameBoard();
+
   return myInterval;
-})();
-
-function clearBoard() {
-  squareCount = 0;
-
-  roundCount = 0;
-
-  wonGame = false;
-
-  lostGame = false;
-
-  Gameboard.resetBoard();
 }
+
+start();
 
 ///////EVENTS
 resetButton.addEventListener("click", () => {
-  clearBoard();
+  Gameboard.resetBoard();
 });
 
 gameModeButton.addEventListener("click", () => {
   if (twoPlayer) {
-    clearBoard();
+    Gameboard.resetBoard();
 
     twoPlayer = !twoPlayer;
+  } else {
+    Gameboard.resetBoard();
 
-    return;
+    twoPlayer = !twoPlayer;
   }
-
-  clearBoard();
-
-  twoPlayer = !twoPlayer;
 });
 
 ///////CLASSES (DOM)
