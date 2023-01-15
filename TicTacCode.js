@@ -13,17 +13,6 @@ const resetButton = document.createElement("button");
 const gameModeButton = document.createElement("button");
 const thinkingText = document.createElement("p");
 
-gameHeader.classList.add("gameHeader");
-
-buttonContainer.classList.add("buttonContainer");
-
-resetButton.classList.add("resetButton");
-resetButton.innerHTML = "Reset";
-
-gameModeButton.classList.add("gameModeButton");
-
-thinkingText.classList.add("thinkingText");
-
 buttonContainer.appendChild(resetButton);
 buttonContainer.appendChild(gameModeButton);
 
@@ -74,7 +63,7 @@ function theRandomBrain() {
     }
 
     theRandomBrain();
-  }, 500);
+  }, 300);
 }
 
 function computerPlayer() {
@@ -354,6 +343,7 @@ function clearBoard() {
   Gameboard.resetBoard();
 }
 
+///////EVENTS
 resetButton.addEventListener("click", () => {
   clearBoard();
 });
@@ -371,3 +361,11 @@ gameModeButton.addEventListener("click", () => {
 
   twoPlayer = !twoPlayer;
 });
+
+///////CLASSES (DOM)
+gameHeader.classList.add("gameHeader");
+buttonContainer.classList.add("buttonContainer");
+resetButton.classList.add("resetButton");
+resetButton.innerHTML = "Reset";
+gameModeButton.classList.add("gameModeButton");
+thinkingText.classList.add("thinkingText");
