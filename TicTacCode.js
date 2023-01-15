@@ -89,9 +89,11 @@ function createSquares() {
     if (Gameboard.gameArray[thisNumber] === "") {
       squares.innerHTML = "";
     }
+
     if (Gameboard.gameArray[thisNumber] === 1) {
       squares.innerHTML = "X";
     }
+
     if (Gameboard.gameArray[thisNumber] === 0) {
       squares.innerHTML = "O";
     }
@@ -232,8 +234,9 @@ function updateText() {
   }
 
   if (roundCount === 9 && !wonGame && !lostGame) {
-    console.log("no one wins");
     gameHeader.innerHTML = `No One Won`;
+
+    return;
   }
 
   if (wonGame || lostGame) {
@@ -286,8 +289,6 @@ function updateText() {
 
       return;
     }
-
-    return;
   }
 
   if (!twoPlayer && roundCount < 9) {
@@ -341,9 +342,13 @@ resetButton.addEventListener("click", () => {
 gameModeButton.addEventListener("click", () => {
   if (twoPlayer) {
     clearBoard();
-    twoPlayer = false;
-  } else {
-    clearBoard();
-    twoPlayer = true;
+
+    twoPlayer = !twoPlayer;
+
+    return;
   }
+
+  clearBoard();
+
+  twoPlayer = !twoPlayer;
 });
